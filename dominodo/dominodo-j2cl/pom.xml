@@ -32,7 +32,84 @@
   </dependencies>
 
   <build>
+    <defaultGoal>process-classes</defaultGoal>
+    <resources>
+      <resource>
+        <directory>src/main/webapp</directory>
+        <targetPath>${webappdir}</targetPath>
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <outputDirectory>${webappdir}/classes</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.0.2</version>
+        <executions>
+          <execution>
+            <id>build-java-classpath</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>build-classpath</goal>
+            </goals>
+            <configuration>
+              <includeTypes>jar</includeTypes>
+              <outputProperty>java-classpath</outputProperty>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-bootstrap</id>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${webappdir}/WEB-INF/lib</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.vertispan.j2cl</groupId>
+                  <artifactId>jre</artifactId>
+                  <version>0.2-SNAPSHOT</version>
+                  <classifier>jszip</classifier>
+                  <type>zip</type>
+                  <destFileName>jre.js.zip</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.vertispan.j2cl</groupId>
+                  <artifactId>jre</artifactId>
+                  <version>0.2-SNAPSHOT</version>
+                  <destFileName>jre.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.vertispan.j2cl</groupId>
+                  <artifactId>gwt-internal-annotations</artifactId>
+                  <version>0.2-SNAPSHOT</version>
+                  <destFileName>gwt-internal-annotations.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.vertispan.j2cl</groupId>
+                  <artifactId>bootstrap</artifactId>
+                  <version>0.2-SNAPSHOT</version>
+                  <classifier>jszip</classifier>
+                  <type>zip</type>
+                  <destFileName>bootstrap.js.zip</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.vertispan.j2cl</groupId>
+                  <artifactId>javac-bootstrap-classpath</artifactId>
+                  <version>0.2-SNAPSHOT</version>
+                  <destFileName>javac-bootstrap-classpath.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <!-- Do not upgrade past 3.1 to avoid triggering https://issues.apache.org/jira/browse/MSOURCES-95 -->
@@ -62,10 +139,10 @@
         <version>${j2cl.maven.plugin.version}</version>
         <executions>
           <execution>
-            <id>run-devmode</id>
+            <id>j2cl-build</id>
             <phase>process-classes</phase>
             <goals>
-              <goal>run</goal>
+              <goal>build</goal>
             </goals>
           </execution>
         </executions>
@@ -276,7 +353,7 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>daily</updatePolicy>
         <checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </pluginRepository>
@@ -312,7 +389,7 @@
       <url>https://repo.vertispan.com/gwt-snapshot/</url>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>daily</updatePolicy>
         <checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </repository>
@@ -321,7 +398,7 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>daily</updatePolicy>
         <checksumPolicy>fail</checksumPolicy>
       </snapshots>
     </repository>
