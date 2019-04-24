@@ -1,8 +1,6 @@
 package org.dominokit.samples.tasks;
 
 import elemental2.dom.HTMLDivElement;
-import org.dominokit.domino.ui.animations.Animation;
-import org.dominokit.domino.ui.animations.Transition;
 import org.dominokit.domino.ui.grid.Column;
 import org.dominokit.domino.ui.grid.Row;
 import org.dominokit.domino.ui.header.BlockHeader;
@@ -53,23 +51,23 @@ public class TasksList extends BaseDominoElement<HTMLDivElement, TasksList> {
                         .styler(style -> style.setMarginTop("10%")));
             } else {
                 tasks.forEach(task -> {
-                    TaskComponent taskComponent = TaskComponent.create(task, hasTaskUiHandlers);
-                    if(animate) {
-                        taskComponent.collapse();
-                        element.appendChild(taskComponent);
-                        Animation.create(taskComponent)
-                                .delay(delay)
-                                .beforeStart(component -> taskComponent.expand())
-                                .duration(DURATION)
-                                .transition(Transition.SLIDE_IN_UP)
-                                .animate();
-
-                        delay = delay + DURATION;
-                        DURATION = 200;
-                    }else{
-                        element.appendChild(taskComponent);
-                    }
-
+                  //                    TaskComponent taskComponent = TaskComponent.create(task, hasTaskUiHandlers);
+                  //                    if(animate) {
+                  //                        taskComponent.collapse();
+                  //                        element.appendChild(taskComponent);
+                  //                        Animation.create(taskComponent)
+                  //                                .delay(delay)
+                  //                                .beforeStart(component -> taskComponent.expand())
+                  //                                .duration(DURATION)
+                  //                                .transition(Transition.SLIDE_IN_UP)
+                  //                                .animate();
+                  //
+                  //                        delay = delay + DURATION;
+                  //                        DURATION = 200;
+                  //                    }else{
+                  //                        element.appendChild(taskComponent);
+                  //                    }
+                  //
                 });
             }
         });

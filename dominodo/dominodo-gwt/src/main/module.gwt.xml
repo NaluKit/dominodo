@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-  <inherits name="com.google.gwt.user.User" />
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name="com.google.gwt.user.User"/>
+
+  <!-- Other module inherits                                      -->
   <inherits name="org.dominokit.domino.ui.DominoUI"/>
 
-  <source path="" />
+  <inherits name='com.github.nalukit.nalu.Nalu'/>
+  <inherits name='com.github.nalukit.nalu.plugin.elemental2.NaluPluginElemental2'/>
 
-  <entry-point class="org.dominokit.samples.GwtApp" />
+  <source path=""/>
+
+  <entry-point class="org.dominokit.samples.GwtApp"/>
+
   <collapse-all-properties/>
 
 </module>

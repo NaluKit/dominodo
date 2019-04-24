@@ -6,14 +6,23 @@ import java.util.List;
 
 public class Task {
 
-    private String title;
-    private String description;
-    private Priority priority;
-    private Date dueDate;
-    private List<String> tags = new ArrayList<>();
-    private Status status = Status.ACTIVE;
-    private Project project;
-    private List<String> attachments = new ArrayList<>();
+  private String       id;
+  private String       title;
+  private String       description;
+  private Priority     priority;
+  private Date         dueDate;
+  private List<String> tags = new ArrayList<>();
+  private Status       status = Status.ACTIVE;
+  private Project      project;
+  private List<String> attachments = new ArrayList<>();
+
+  public Task() {
+    this.id = GUID.get();
+  }
+
+  public String getId() {
+    return id;
+  }
 
     public String getTitle() {
         return title;

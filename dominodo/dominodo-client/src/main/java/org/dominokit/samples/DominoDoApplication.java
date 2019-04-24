@@ -5,10 +5,9 @@ import com.github.nalukit.nalu.client.application.annotation.Application;
 import com.github.nalukit.nalu.client.application.annotation.Debug;
 import com.github.nalukit.nalu.plugin.elemental2.client.DefaultElemental2Logger;
 
-@Application(startRoute = "/application/person/search",
+@Application(startRoute = DominoDoRoutes.ROUTE_TASKS_ALL,
              context = DominoDoContext.class,
-             routeError = DominoDoRoutes.Route_ERROR,
-             useHash = false)
+             routeError = DominoDoRoutes.ROUTE_ERROR)
 @Debug(logLevel = Debug.LogLevel.DETAILED,
        logger = DefaultElemental2Logger.class)
 interface DominoDoApplication

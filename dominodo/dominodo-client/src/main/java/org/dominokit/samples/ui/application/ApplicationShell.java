@@ -5,10 +5,14 @@ import com.github.nalukit.nalu.client.component.annotation.Shell;
 import elemental2.dom.DomGlobal;
 import org.dominokit.domino.ui.grid.Column;
 import org.dominokit.domino.ui.grid.Row;
+import org.dominokit.domino.ui.icons.Icons;
 import org.dominokit.domino.ui.layout.Layout;
-import org.dominokit.domino.ui.mediaquery.MediaQuery;
+import org.dominokit.domino.ui.layout.TopBarAction;
+import org.dominokit.domino.ui.search.Search;
 import org.dominokit.domino.ui.style.ColorScheme;
 import org.dominokit.samples.DominoDoContext;
+
+import static org.jboss.gwt.elemento.core.Elements.img;
 
 /**
  * this is the presenter of the shell. The shell divides the browser in
@@ -18,41 +22,62 @@ import org.dominokit.samples.DominoDoContext;
 public class ApplicationShell
     extends AbstractShell<DominoDoContext> {
 
+  private Layout layout;
+
   public ApplicationShell() {
   }
 
-  /**
-   * The ShellPresenter has to implemented this method, because the framework
-   * can not do this. (It does not know, what to use).
-   * <p>
-   * We append the ShellView to the browser body.
-   */
   @Override
   public void attachShell() {
-    Layout layout = Layout.create("Nalu - Simple Application using Domino-UI")
-                          .show(ColorScheme.INDIGO);
 
-    layout.showFooter()
-          .fixFooter()
-          .getFooter()
-          .setId("footer")
-          .style()
-          .setMinHeight("42px");
+    Search search = Search.create()
+                          .onSearch(this::onSearch);
+
+    layout = Layout.create("DominoDo");
+    layout.navigationBar(navigationBar -> navigationBar.insertBefore(search,
+                                                                     layout.getNavigationBar()
+                                                                           .firstChild()))
+          .topBar(topBar -> topBar.appendChild(TopBarAction.create(Icons.ALL.settings())
+                                                           .addClickListener(evt -> layout.showRightPanel()))
+                                  .appendChild(TopBarAction.create(Icons.ALL.search())
+                                                           .addClickListener(evt -> search.open())))
+          .autoFixLeftPanel()
+          .setLogo(img("/todo.png"))
+          .show(ColorScheme.BLUE);
 
     layout.getLeftPanel()
           .setId("navigation");
+    layout.getRightPanel()
+          .setId("setttings");
     layout.getContentPanel()
           .appendChild(Row.create()
                           .appendChild(Column.span12()
                                              .setId("content")));
 
-    MediaQuery.addOnMediumAndDownListener(layout::unfixLeftPanelPosition);
-    MediaQuery.addOnLargeAndUpListener(layout::fixLeftPanelPosition);
+    //    Button addButton = Button.create(Icons.ALL.add())
+    //                             .setBackground(Color.THEME)
+    //                             .setContent("ADD TASK")
+    //                             .styler(style -> style.add("add-button"))
+    //                             .addClickListener(evt -> showAddDialog());
+
+    //    DomGlobal.document.body.appendChild(addButton.asElement());
   }
 
   @Override
   public void onAttachedComponent() {
     DomGlobal.window.console.log("ApplicationShell: 'onAttachedComponent' called");
+  }
+
+  private void onSearch(String searchToken) {
+    //    this.currentTaskView = (animate) -> {
+    //      List<Task> tasks = tasksRepository.findTasks(searchToken);
+    //      layout.setContent(TasksList.create("Search results",
+    //                                         tasks,
+    //                                         DominoDoOld.this)
+    //                                 .update(animate));
+    //    };
+    //
+    //    this.currentTaskView.update(true);
   }
 
 }

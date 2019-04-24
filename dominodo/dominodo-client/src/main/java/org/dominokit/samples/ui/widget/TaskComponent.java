@@ -1,4 +1,4 @@
-package org.dominokit.samples.tasks;
+package org.dominokit.samples.ui.widget;
 
 import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLElement;
@@ -25,12 +25,9 @@ import org.dominokit.domino.ui.style.ColorScheme;
 import org.dominokit.domino.ui.style.Styles;
 import org.dominokit.domino.ui.utils.BaseDominoElement;
 import org.dominokit.domino.ui.utils.ScreenMedia;
-import org.dominokit.samples.HasTaskUiHandlers;
 import org.dominokit.samples.Priority;
 import org.dominokit.samples.Task;
-import org.dominokit.samples.attachments.AttachDialogComponent;
 import org.dominokit.samples.attachments.AttachmentPanelComponent;
-import org.dominokit.samples.attachments.FileUploadComponent;
 import org.gwtproject.i18n.shared.DateTimeFormatInfo;
 import org.gwtproject.i18n.shared.impl.cldr.DateTimeFormatInfo_factory;
 import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
@@ -40,9 +37,10 @@ import java.util.Date;
 import static org.jboss.gwt.elemento.core.Elements.hr;
 import static org.jboss.gwt.elemento.core.Elements.small;
 
-public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskComponent> implements HasTask {
+public class TaskComponent
+    extends BaseDominoElement<HTMLDivElement, TaskComponent> {
 
-    private final HasTaskUiHandlers taskUiHandlers;
+  private         TaskComponentDelegate     delegate;
     private HtmlContentBuilder<HTMLElement> dueDateElement;
     private DateTimeFormatInfo dateTimeFormatInfo = DateTimeFormatInfo_factory.create();
     private Card card;
@@ -53,13 +51,10 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
     private AttachmentPanelComponent attachmentPanel;
     private final Icon importantIcon;
 
-    public static TaskComponent create(Task task, HasTaskUiHandlers taskUiHandlers) {
-        return new TaskComponent(task, taskUiHandlers);
-    }
-
-    public TaskComponent(Task task, HasTaskUiHandlers taskUiHandlers) {
+  public TaskComponent(Task task,
+                       TaskComponentDelegate delegate) {
         this.task = task;
-        this.taskUiHandlers = taskUiHandlers;
+    this.delegate = delegate;
 
         projectColor = ColorScheme.valueOf(task.getProject().getColor());
         dueDateElement = small()
@@ -76,6 +71,8 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
                 .addDateDayClickHandler((date, dateTimeFormatInfo1) -> datePickerPopup.close())
                 .addDateSelectionHandler((date, dateTimeFormatInfo) -> {
                     dueDateElement.textContent(formatDate(date));
+                  delegate.onUpdateDueDate(task,
+                                           date);
                     task.setDueDate(date);
                 });
 
@@ -92,10 +89,10 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
         attachmentPanel = AttachmentPanelComponent.create(task);
 
         card = Card.create(task.getTitle())
-                .styler(style -> style.setProperty("border-left", "5px solid " + projectColor.color().getHex()))
-                .appendDescriptionChild(projectName)
-                .appendDescriptionChild(dueDateElement)
-                .addHeaderAction(HeaderAction.create(Icons.ALL.more_vert())
+                   .styler(style -> style.setProperty("border-left", "5px solid " + projectColor.color().getHex()))
+                   .appendDescriptionChild(projectName)
+                   .appendDescriptionChild(dueDateElement)
+                   .addHeaderAction(HeaderAction.create(Icons.ALL.more_vert())
                         .hideOn(ScreenMedia.MEDIUM_AND_UP)
                         .apply(element -> {
                             DropDownMenu menu = createDropDownMenu(element);
@@ -106,58 +103,66 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
                         })
                 )
 
-                .addHeaderAction(HeaderAction.create(Icons.ALL.priority_high()
+                   .addHeaderAction(HeaderAction.create(Icons.ALL.priority_high()
                         .setTooltip("Toggle priority"))
-                        .hideOn(ScreenMedia.SMALL_AND_DOWN)
-                        .addClickListener(evt -> updatePriority()))
+                                                .hideOn(ScreenMedia.SMALL_AND_DOWN)
+                                                .addClickListener(evt -> {
+                                                  delegate.onTaskPriorityChange(task);
+                                                  update();
+                                                }))
 
-                .addHeaderAction(HeaderAction.create(Icons.ALL.delete()
+                   .addHeaderAction(HeaderAction.create(Icons.ALL.delete()
                         .setTooltip("Delete task"))
                         .hideOn(ScreenMedia.SMALL_AND_DOWN)
                         .addClickListener(evt -> showConfirmationDialog()))
 
-                .addHeaderAction(HeaderAction.create(Icons.ALL.edit()
-                        .setTooltip("Edit task"))
-                        .hideOn(ScreenMedia.SMALL_AND_DOWN)
-                        .addClickListener(evt -> taskUiHandlers.onEditTask(task)))
+                   //                .addHeaderAction(HeaderAction.create(Icons.ALL.edit()
+                   //                        .setTooltip("Edit task"))
+                   //                        .hideOn(ScreenMedia.SMALL_AND_DOWN)
+                   //                        .addClickListener(evt -> taskUiHandlers.onEditTask(task)))
 
-                .addHeaderAction(HeaderAction.create(Icons.ALL.attachment()
-                        .setTooltip("Attach files"))
-                        .hideOn(ScreenMedia.SMALL_AND_DOWN)
-                        .addClickListener(evt -> AttachDialogComponent.create(FileUploadComponent.create(TaskComponent.this), this::update).open()))
+                   //                .addHeaderAction(HeaderAction.create(Icons.ALL.attachment()
+                   //                        .setTooltip("Attach files"))
+                   //                        .hideOn(ScreenMedia.SMALL_AND_DOWN)
+                   //                        .addClickListener(evt -> AttachDialogComponent.create(FileUploadComponent.create(TaskComponent.this), this::update).open()))
 
-                .addHeaderAction(HeaderAction.create(Icons.ALL.event()
+                   .addHeaderAction(HeaderAction.create(Icons.ALL.event()
                         .setTooltip("Pick Due date")
                         .hideOn(ScreenMedia.SMALL_AND_DOWN)
                         .apply(dateIcon -> datePickerPopup = Popover.createPicker(dateIcon, datePicker)
                                 .position(PopupPosition.TOP_DOWN)
                                 .styler(style -> style.setMaxWidth("300px"))))
                         .addClickListener(evt -> datePickerPopup.show()))
-                .addHeaderAction(getStatusAction(task))
+                   .addHeaderAction(getStatusAction(task))
 
-                .appendChild(importantIcon)
-                .appendChild(Paragraph.create(task.getDescription()))
-                .appendChild(TagsPanelComponent.create(task, taskUiHandlers))
-                .appendChild(hr())
-                .appendChild(attachmentPanel);
+                   .appendChild(importantIcon)
+                   .appendChild(Paragraph.create(task.getDescription()))
+                   //                .appendChild(TagsPanelComponent.create(task, taskUiHandlers))
+                   .appendChild(hr())
+                   .appendChild(attachmentPanel);
 
         init(this);
         update();
 
     }
 
+  public static TaskComponent create(Task task,
+                                     TaskComponentDelegate delegate) {
+    return new TaskComponent(task,
+                             delegate);
+  }
+
     private DropDownMenu createDropDownMenu(HeaderAction element) {
         return DropDownMenu.create(element)
-                .setPosition(DropDownPosition.BOTTOM_LEFT)
-                .addAction(DropdownAction.<String>create("Toggle priority")
-                        .addSelectionHandler(value -> updatePriority()))
-                .addAction(DropdownAction.<String>create("Delete")
+                           .setPosition(DropDownPosition.BOTTOM_LEFT)
+                           .addAction(DropdownAction.<String>create("Toggle priority").addSelectionHandler(value -> delegate.onTaskPriorityChange(task)))
+                           .addAction(DropdownAction.<String>create("Delete")
                         .addSelectionHandler(value -> showConfirmationDialog()))
-                .addAction(DropdownAction.<String>create("Edit")
-                        .addSelectionHandler( value -> taskUiHandlers.onEditTask(task)))
-                .addAction(DropdownAction.<String>create("Attach")
-                        .addSelectionHandler(value -> AttachDialogComponent.create(FileUploadComponent.create(TaskComponent.this), this::update).open()))
-                .addAction(DropdownAction.<String>create("Pick due date")
+                           //                .addAction(DropdownAction.<String>create("Edit")
+                           //                        .addSelectionHandler( value -> taskUiHandlers.onEditTask(task)))
+                           //                .addAction(DropdownAction.<String>create("Attach")
+                           //                        .addSelectionHandler(value -> AttachDialogComponent.create(FileUploadComponent.create(TaskComponent.this), this::update).open()))
+                           .addAction(DropdownAction.<String>create("Pick due date")
                         .addSelectionHandler(value -> {
                             ModalDialog modal = datePicker
                                     .createModal("Duew date")
@@ -167,7 +172,7 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
                                 modal.close();
                             });
                         }))
-                .addAction(DropdownAction.<String>create(task.isActive() ? "Resolve" : "Unresolve")
+                           .addAction(DropdownAction.<String>create(task.isActive() ? "Resolve" : "Unresolve")
                         .addSelectionHandler(value -> {
                             if (task.isActive()) {
                                 resolve();
@@ -178,13 +183,15 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
     }
 
     private void unresolve() {
-        taskUiHandlers.onUnResolve(task);
-        Notification.createWarning("Oops! now You have more work to do. " + task.getTitle())
+      delegate.onUnResolve(task);
+      update();
+      Notification.createWarning("Oops! now You have more work to do. " + task.getTitle())
                 .show();
     }
 
     private void resolve() {
-        taskUiHandlers.onResolved(task);
+      delegate.onResolved(task);
+      update();
         Notification.createSuccess("Congrats! Task [" + task.getTitle() + "] have been resolved now.")
                 .show();
     }
@@ -206,16 +213,6 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
 
     }
 
-    private void updatePriority() {
-        if (Priority.IMPORTANT.equals(task.getPriority())) {
-            task.setPriority(Priority.NORMAL);
-        } else {
-            task.setPriority(Priority.IMPORTANT);
-        }
-        update();
-        taskUiHandlers.onTaskPriorityChange(task);
-    }
-
     private ConfirmationDialog showConfirmationDialog() {
         return ConfirmationDialog.create("Confirm delete")
                 .appendChild(Paragraph.create("Are you sure you want to delete this task?"))
@@ -228,7 +225,7 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
                             .transition(Transition.LIGHT_SPEED_OUT)
                             .duration(500)
                             .callback(element1 -> {
-                                taskUiHandlers.onTaskDelete(task);
+                              delegate.onTaskDelete(task);
                             }).animate();
 
                 })
@@ -244,14 +241,29 @@ public class TaskComponent extends BaseDominoElement<HTMLDivElement, TaskCompone
     private String formatDate(Date date) {
         return DatePicker.Formatter.getFormat(this.dateTimeFormatInfo.dateFormatFull(), this.dateTimeFormatInfo).format(date);
     }
-
-    @Override
-    public Task getTask() {
-        return this.task;
-    }
+  //
+  //    @Override
+  //    public Task getTask() {
+  //        return this.task;
+  //    }
 
     @Override
     public HTMLDivElement asElement() {
         return card.asElement();
     }
+
+  public interface TaskComponentDelegate {
+
+    void onResolved(Task task);
+
+    void onTaskDelete(Task task);
+
+    void onTaskPriorityChange(Task task);
+
+    void onUnResolve(Task task);
+
+    void onUpdateDueDate(Task task,
+                         Date date);
+
+  }
 }
