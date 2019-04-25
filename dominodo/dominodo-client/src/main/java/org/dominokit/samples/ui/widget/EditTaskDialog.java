@@ -1,4 +1,4 @@
-package org.dominokit.samples.tasks;
+package org.dominokit.samples.ui.widget;
 
 import org.dominokit.domino.ui.button.Button;
 import org.dominokit.domino.ui.datepicker.DateBox;
@@ -11,7 +11,9 @@ import org.dominokit.samples.Constants;
 import org.dominokit.samples.Priority;
 import org.dominokit.samples.Project;
 import org.dominokit.samples.Task;
-import org.dominokit.samples.attachments.FileUploadComponent;
+import org.dominokit.samples.model.TasksRepository;
+import org.dominokit.samples.tasks.HasTask;
+import org.dominokit.samples.ui.widget.attachment.FileUploadComponent;
 import org.gwtproject.editor.client.Editor;
 import org.gwtproject.editor.client.SimpleBeanEditorDriver;
 import org.gwtproject.editor.client.annotation.IsDriver;
@@ -22,7 +24,9 @@ import java.util.function.Consumer;
 import static java.util.Objects.nonNull;
 import static org.jboss.gwt.elemento.core.Elements.h;
 
-public class EditTaskDialog implements Editor<Task>, HasTask {
+public class EditTaskDialog
+    implements Editor<Task>,
+               HasTask {
 
     private final Driver driver;
     private Task task;
@@ -121,7 +125,7 @@ public class EditTaskDialog implements Editor<Task>, HasTask {
                 .appendChild(Row.create()
                         .fullSpan(column -> column.appendChild(h(5)
                                 .textContent("ATTACHMENTS"))
-                                .appendChild(FileUploadComponent.create(EditTaskDialog.this)
+                                                  .appendChild(FileUploadComponent.create(task)
                                 )))
                 .appendFooterChild(Button.create(Icons.ALL.clear())
                         .linkify()

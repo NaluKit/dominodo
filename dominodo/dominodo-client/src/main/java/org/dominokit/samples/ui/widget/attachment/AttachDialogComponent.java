@@ -1,4 +1,4 @@
-package org.dominokit.samples.attachments;
+package org.dominokit.samples.ui.widget.attachment;
 
 import org.dominokit.domino.ui.button.Button;
 import org.dominokit.domino.ui.icons.Icons;

@@ -5,10 +5,12 @@ import org.gwtproject.event.shared.Event;
 public class RefreshEvent
     extends Event<RefreshEvent.RefreshChangeHandler> {
 
+  private boolean animate;
+
   public static Type<RefreshEvent.RefreshChangeHandler> TYPE = new Type<RefreshEvent.RefreshChangeHandler>();
 
-  public RefreshEvent() {
-    super();
+  public RefreshEvent(boolean animate) {
+    this.animate = animate;
   }
 
   @Override
@@ -19,6 +21,10 @@ public class RefreshEvent
   @Override
   protected void dispatch(RefreshEvent.RefreshChangeHandler handler) {
     handler.onRefreshChange(this);
+  }
+
+  public boolean isAnimate() {
+    return animate;
   }
 
   public interface RefreshChangeHandler {

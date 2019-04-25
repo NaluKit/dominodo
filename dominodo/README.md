@@ -1,7 +1,11 @@
 ![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)
 
 # dominodo
-Domino-ui sample todo app without using MVP framework, the purpose of this sample is to show the power of domino-ui independent from the MVP frameworks, this is not the encouraged way of writing apps with domino-ui, but rather a demonostration of pure domino-ui project.
+Domino-ui sample todo app using the Nalu framework.
+
+The purpose of this sample is to show the power of domino-ui and Nalu and to create a more complex J2CL showcase.
+
+**This is not the encouraged way of writing apps with domino-ui and Nalu, but rather a demonostration of domino-ui and Nalu project for J2CL.**
 
 # Run as a GWT2 app
 

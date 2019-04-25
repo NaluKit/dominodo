@@ -1,4 +1,4 @@
-package org.dominokit.samples.tasks;
+package org.dominokit.samples.model;
 
 import elemental2.core.JsDate;
 import org.dominokit.domino.ui.icons.Icons;
@@ -243,6 +243,13 @@ public class TasksRepository {
         }
       });
     }
+  }
+
+  public Task findById(String id) {
+    Optional<Task> optional = tasks.stream()
+                                   .filter(task -> id.equals(task.getId()))
+                                   .findFirst();
+    return optional.orElse(null);
   }
 
   public List<Task> findByTag(String tag) {

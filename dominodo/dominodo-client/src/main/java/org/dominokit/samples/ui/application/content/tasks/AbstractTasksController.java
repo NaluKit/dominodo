@@ -1,11 +1,10 @@
 package org.dominokit.samples.ui.application.content.tasks;
 
 import com.github.nalukit.nalu.client.component.AbstractComponentController;
+import com.github.nalukit.nalu.client.component.event.ShowPopUpEvent;
 import elemental2.dom.HTMLElement;
-import org.dominokit.samples.DominoDoContext;
-import org.dominokit.samples.Priority;
-import org.dominokit.samples.Status;
-import org.dominokit.samples.Task;
+import org.dominokit.samples.*;
+import org.dominokit.samples.event.RefreshEvent;
 
 import java.util.Date;
 
@@ -18,9 +17,35 @@ public abstract class AbstractTasksController
 
   @Override
   public void start() {
+    this.handlerRegistrations.compose(this.eventBus.addHandler(RefreshEvent.TYPE,
+                                                               e -> this.component.edit(this.context.getTasksRepository()
+                                                                                                    .listAll(),
+                                                                                        e.isAnimate())));
     this.component.edit(this.context.getTasksRepository()
                                     .listAll(),
                         true);
+  }
+
+  @Override
+  public void doOnEditTask(Task task) {
+    this.eventBus.fireEvent(ShowPopUpEvent.show("TaskEditor")
+                                          .using("function",
+                                                 Constants.FUNCTION_EDIT)
+                                          .using("id",
+                                                 task.getId()));
+  }
+
+  @Override
+  public void onTagSelected(Task task,
+                            String tag) {
+    //TODO ...
+    //    task.getTags()
+    //        .remove(tag);
+    //    this.context.getTasksRepository()
+    //                .updateTask(task);
+    //    this.component.edit(this.context.getTasksRepository()
+    //                                    .listAll(),
+    //                        false);
   }
 
   @Override

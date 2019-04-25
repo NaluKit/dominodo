@@ -7,4 +7,7 @@ public class Constants {
   public static final String GWT       = "GWT";
   public static final String MOVIES    = "Movies";
 
+  public static final String FUNCTION_ADD  = "add";
+  public static final String FUNCTION_EDIT = "edit";
+
 }

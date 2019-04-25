@@ -1,9 +1,9 @@
 package org.dominokit.samples;
 
 import org.dominokit.domino.ui.layout.Layout;
-import org.dominokit.samples.tasks.EditTaskDialog;
+import org.dominokit.samples.model.TasksRepository;
 import org.dominokit.samples.tasks.TasksList;
-import org.dominokit.samples.tasks.TasksRepository;
+import org.dominokit.samples.ui.widget.EditTaskDialog;
 
 import java.util.List;
 

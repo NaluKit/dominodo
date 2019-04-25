@@ -68,6 +68,18 @@ public abstract class AbstractTasksComponent
                                                              }
 
                                                              @Override
+                                                             public void onEditTask(Task task) {
+                                                               getController().doOnEditTask(task);
+                                                             }
+
+                                                             @Override
+                                                             public void onTagSelected(Task task,
+                                                                                       String tag) {
+                                                               getController().onTagSelected(task,
+                                                                                             tag);
+                                                             }
+
+                                                             @Override
                                                              public void onTaskDelete(Task task) {
                                                                getController().doOnTaskDelete(task);
                                                              }

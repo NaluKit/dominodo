@@ -1,4 +1,4 @@
-package org.dominokit.samples.attachments;
+package org.dominokit.samples.ui.widget.attachment;
 
 import elemental2.dom.HTMLDivElement;
 import org.dominokit.domino.ui.badges.Badge;

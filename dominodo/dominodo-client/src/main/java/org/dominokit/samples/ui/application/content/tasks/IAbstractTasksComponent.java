@@ -18,7 +18,12 @@ public interface IAbstractTasksComponent
 
     String doGetTitle();
 
+    void doOnEditTask(Task task);
+
     void doOnResolved(Task task);
+
+    void onTagSelected(Task task,
+                       String tag);
 
     void doOnTaskDelete(Task task);
 

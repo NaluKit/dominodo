@@ -2,7 +2,7 @@ package org.dominokit.samples;
 
 import com.github.nalukit.nalu.client.application.IsContext;
 import org.dominokit.domino.ui.style.ColorScheme;
-import org.dominokit.samples.tasks.TasksRepository;
+import org.dominokit.samples.model.TasksRepository;
 
 public class DominoDoContext
     implements IsContext {
