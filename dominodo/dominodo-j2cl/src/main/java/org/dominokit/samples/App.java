@@ -5,6 +5,8 @@ import com.google.gwt.core.client.EntryPoint;
 public class App implements EntryPoint {
 
     public void onModuleLoad() {
-      new DominoDoOld().run();
+      DominoDo application = new DominoDo();
+      application.run();
     }
+
 }
