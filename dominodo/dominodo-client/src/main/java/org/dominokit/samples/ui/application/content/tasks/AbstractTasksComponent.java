@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractTasksComponent
+public abstract class AbstractTasksComponent<C extends IAbstractTasksComponent.Controller>
     extends AbstractComponent<IAbstractTasksComponent.Controller, HTMLElement>
     implements IAbstractTasksComponent {
 
@@ -118,6 +118,12 @@ public abstract class AbstractTasksComponent
         }
       });
     }
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public C getController() {
+    return (C) super.getController();
   }
 
 }

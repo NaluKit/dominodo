@@ -168,75 +168,20 @@ public class TaskEditorComponent
     this.driver.edit(task);
   }
 
-  //  @Override
-  //  public Person flush(Person person) {
-  //    person.setFirstName(detailFirstName.getValue());
-  //    person.setName(detailName.getValue());
-  //    person.getAddress()
-  //          .setStreet(detailStreet.getValue());
-  //    person.getAddress()
-  //          .setZip(detailZip.getValue());
-  //    person.getAddress()
-  //          .setCity(detailCity.getValue());
-  //    return person;
-  //  }
+  @Override
+  public Task flush() {
+    return this.driver.flush();
+  }
 
   @Override
   public void hide() {
     this.dialog.close();
   }
 
-  //  @Override
-  //  public boolean isDirty() {
-  //    boolean notDirty = ((getController().getPerson()
-  //                                        .getAddress()
-  //                                        .getStreet()
-  //                                        .equals(detailStreet.getValue())) &&
-  //                        (getController().getPerson()
-  //                                        .getAddress()
-  //                                        .getZip()
-  //                                        .equals(detailZip.getValue())) &&
-  //                        (getController().getPerson()
-  //                                        .getAddress()
-  //                                        .getCity()
-  //                                        .equals(detailCity.getValue())) &&
-  //                        (getController().getPerson()
-  //                                        .getFirstName()
-  //                                        .equals(detailFirstName.getValue())) &&
-  //                        (getController().getPerson()
-  //                                        .getName()
-  //                                        .equals(detailName.getValue())));
-  //    return !notDirty;
-  //  }
-
   @Override
   public void show() {
     this.dialog.open();
   }
-
-  //  @Override
-  //  public void showDirtyAlert() {
-  //    MessageDialog messageDialog = MessageDialog.createMessage("Revert changes?",
-  //                                                              "All you changes will be lost!");
-  //    Button cancelButton = Button.create("Cancel")
-  //                                .linkify()
-  //                                .addClickListener(e -> messageDialog.close());
-  //    Button verwerfenButton = Button.create("Revert")
-  //                                   .linkify()
-  //                                   .addClickListener(e -> {
-  //                                     messageDialog.close();
-  //                                     dialog.close();
-  //                                   });
-  //    messageDialog.setAutoClose(false)
-  //                 .warning()
-  //                 .getFooterElement()
-  //                 .clearElement()
-  //                 .appendChild(verwerfenButton)
-  //                 .appendChild(cancelButton);
-  //    messageDialog.open();
-  //  }
-
-
 
   @IsDriver
   interface Driver

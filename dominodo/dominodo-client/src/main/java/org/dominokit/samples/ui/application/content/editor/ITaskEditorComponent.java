@@ -10,15 +10,7 @@ public interface ITaskEditorComponent
 
   void edit(Task task);
 
-  //  Person flush(Person person);
-  //
-  //  void hide();
-  //
-  //  boolean isDirty();
-  //
-  //  void showDirtyAlert();
-
-
+  Task flush();
 
   interface Controller
       extends IsPopUpComponent.Controller {

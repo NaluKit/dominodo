@@ -7,9 +7,10 @@ import org.dominokit.samples.*;
 import org.dominokit.samples.event.RefreshEvent;
 
 import java.util.Date;
+import java.util.List;
 
-public abstract class AbstractTasksController
-    extends AbstractComponentController<DominoDoContext, IAbstractTasksComponent, HTMLElement>
+public abstract class AbstractTasksController<C extends IAbstractTasksComponent>
+    extends AbstractComponentController<DominoDoContext, C, HTMLElement>
     implements IAbstractTasksComponent.Controller {
 
   public AbstractTasksController() {
@@ -21,8 +22,7 @@ public abstract class AbstractTasksController
                                                                e -> this.component.edit(this.context.getTasksRepository()
                                                                                                     .listAll(),
                                                                                         e.isAnimate())));
-    this.component.edit(this.context.getTasksRepository()
-                                    .listAll(),
+    this.component.edit(this.getTasks(),
                         true);
   }
 
@@ -95,5 +95,7 @@ public abstract class AbstractTasksController
     this.context.getTasksRepository()
                 .updateTask(task);
   }
+
+  public abstract List<Task> getTasks();
 
 }

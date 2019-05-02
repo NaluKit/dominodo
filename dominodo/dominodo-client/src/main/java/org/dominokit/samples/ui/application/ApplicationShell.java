@@ -2,15 +2,20 @@ package org.dominokit.samples.ui.application;
 
 import com.github.nalukit.nalu.client.component.AbstractShell;
 import com.github.nalukit.nalu.client.component.annotation.Shell;
+import com.github.nalukit.nalu.client.component.event.ShowPopUpEvent;
 import elemental2.dom.DomGlobal;
+import org.dominokit.domino.ui.button.Button;
 import org.dominokit.domino.ui.grid.Column;
 import org.dominokit.domino.ui.grid.Row;
 import org.dominokit.domino.ui.icons.Icons;
 import org.dominokit.domino.ui.layout.Layout;
 import org.dominokit.domino.ui.layout.TopBarAction;
 import org.dominokit.domino.ui.search.Search;
+import org.dominokit.domino.ui.style.Color;
 import org.dominokit.domino.ui.style.ColorScheme;
+import org.dominokit.samples.Constants;
 import org.dominokit.samples.DominoDoContext;
+import org.dominokit.samples.DominoDoRoutes;
 
 import static org.jboss.gwt.elemento.core.Elements.img;
 
@@ -54,13 +59,21 @@ public class ApplicationShell
                           .appendChild(Column.span12()
                                              .setId("content")));
 
-    //    Button addButton = Button.create(Icons.ALL.add())
-    //                             .setBackground(Color.THEME)
-    //                             .setContent("ADD TASK")
-    //                             .styler(style -> style.add("add-button"))
-    //                             .addClickListener(evt -> showAddDialog());
+    Button addButton = Button.create(Icons.ALL.add())
+                             .setBackground(Color.THEME)
+                             .setContent("ADD TASK")
+                             .styler(style -> style.add("add-button"))
+                             .addClickListener(evt -> showAddDialog());
 
-    //    DomGlobal.document.body.appendChild(addButton.asElement());
+    DomGlobal.document.body.appendChild(addButton.asElement());
+  }
+
+  private void showAddDialog() {
+    this.eventBus.fireEvent(ShowPopUpEvent.show("TaskEditor")
+                                          .using("function",
+                                                 Constants.FUNCTION_ADD)
+                                          .using("id",
+                                                 "-1"));
   }
 
   @Override
@@ -69,15 +82,8 @@ public class ApplicationShell
   }
 
   private void onSearch(String searchToken) {
-    //    this.currentTaskView = (animate) -> {
-    //      List<Task> tasks = tasksRepository.findTasks(searchToken);
-    //      layout.setContent(TasksList.create("Search results",
-    //                                         tasks,
-    //                                         DominoDoOld.this)
-    //                                 .update(animate));
-    //    };
-    //
-    //    this.currentTaskView.update(true);
+    this.router.route(DominoDoRoutes.ROUTE_TASKS_SEARCH_RESULT,
+                      searchToken);
   }
 
 }

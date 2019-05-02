@@ -5,9 +5,8 @@ import org.gwtproject.event.shared.Event;
 public class RefreshEvent
     extends Event<RefreshEvent.RefreshChangeHandler> {
 
-  private boolean animate;
-
   public static Type<RefreshEvent.RefreshChangeHandler> TYPE = new Type<RefreshEvent.RefreshChangeHandler>();
+  private       boolean                                 animate;
 
   public RefreshEvent(boolean animate) {
     this.animate = animate;

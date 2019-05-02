@@ -29,27 +29,29 @@ public class NavigationController
 
   @Override
   public void onTodaySelected() {
-
+    this.router.route(DominoDoRoutes.ROUTE_TASKS_TODAY);
   }
 
   @Override
   public void onNextWeekSelected() {
-
+    this.router.route(DominoDoRoutes.ROUTE_TASKS_NEXT_WEEK);
   }
 
   @Override
-  public void onPrioritySelected(Priority important) {
-
+  public void onPrioritySelected(Priority priority) {
+    this.router.route(DominoDoRoutes.ROUTE_TASKS_BY_PRIORITY,
+                      priority.toString());
   }
 
   @Override
-  public void onProjectSelected(String gwt) {
-
+  public void onProjectSelected(String project) {
+    this.router.route(DominoDoRoutes.ROUTE_TASKS_BY_PROJECT,
+                      project);
   }
 
   @Override
   public void onListResolved() {
-
+    this.router.route(DominoDoRoutes.ROUTE_TASKS_RESOLVED);
   }
 
 }

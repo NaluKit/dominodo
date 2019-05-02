@@ -23,6 +23,7 @@ import org.dominokit.samples.Constants;
 import org.dominokit.samples.DominoDoContext;
 import org.dominokit.samples.DominoDoRoutes;
 import org.dominokit.samples.Task;
+import org.dominokit.samples.event.RefreshEvent;
 
 import java.util.Objects;
 
@@ -63,16 +64,22 @@ public class TaskEditorController
       this.router.route(DominoDoRoutes.ROUTE_TASKS_ALL);
       return;
     }
-
-    // this only works, cause we a working with a synchron data repository!
-    this.task = this.context.getTasksRepository()
-                            .findById(this.id);
-    if (Objects.isNull(this.task)) {
-      this.router.route(DominoDoRoutes.ROUTE_TASKS_ALL);
-      return;
+    switch (this.function) {
+      case Constants.FUNCTION_ADD:
+        this.task = new Task();
+        break;
+      case Constants.FUNCTION_EDIT:
+        this.task = this.context.getTasksRepository()
+                                .findById(this.id);
+        if (Objects.isNull(this.task)) {
+          this.router.route(DominoDoRoutes.ROUTE_TASKS_ALL);
+          return;
+        }
+        break;
     }
-
+    // sets the data in the component
     this.component.edit(this.task);
+    // make the component visible (cause it's a PopUpController)
     this.component.show();
   }
 
@@ -88,31 +95,22 @@ public class TaskEditorController
 
   @Override
   public void doOnSave() {
+    // get the changes
+    this.task = this.component.flush();
     switch (this.function) {
       case Constants.FUNCTION_ADD:
+        // insert into repository
+        this.context.getTasksRepository()
+                    .addTask(this.task);
+        break;
       case Constants.FUNCTION_EDIT:
+        // update repository
+        this.context.getTasksRepository()
+                    .updateTask(this.task);
+        break;
     }
-
+    this.component.hide();
+    this.eventBus.fireEvent(new RefreshEvent(false));
   }
-
-  //  @Override
-  //  public void doUpdate() {
-  //    this.person = this.component.flush(this.person);
-  //    try {
-  //      PersonService.get()
-  //                   .update(this.person);
-  //      this.component.hide();
-  //      this.eventBus.fireEvent(new StatusChangeEvent(""));
-  //      if (this.context.getSearchName() == null && this.context.getSearchCity() == null) {
-  //        this.router.route("/application/person/search");
-  //      } else {
-  //        this.router.route("/application/person/list",
-  //                          this.context.getSearchName(),
-  //                          this.context.getSearchCity());
-  //      }
-  //    } catch (PersonException e) {
-  //      DomGlobal.window.alert("Panic!");
-  //    }
-  //  }
 
 }

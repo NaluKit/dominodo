@@ -34,9 +34,9 @@ public interface INavigationComponent
 
     void onNextWeekSelected();
 
-    void onPrioritySelected(Priority important);
+    void onPrioritySelected(Priority priority);
 
-    void onProjectSelected(String gwt);
+    void onProjectSelected(String project);
 
     void onListResolved();
 

@@ -281,4 +281,9 @@ public class TasksRepository {
                 .collect(Collectors.toList());
   }
 
+  public boolean isValidProjectName(String projectName) {
+    return PROJECTS.keySet()
+                   .contains(projectName);
+  }
+
 }
