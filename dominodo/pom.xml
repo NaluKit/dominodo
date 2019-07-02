@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <domnio-rest>1.0-rc.4-SNAPSHOT</domnio-rest>
         <nalu.version>1.2.2-SNAPSHOT</nalu.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
