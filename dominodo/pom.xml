@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <nalu.version>1.2.2-SNAPSHOT</nalu.version>
+        <nalu.version>2.1.0-SNAPSHOT</nalu.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -64,7 +64,7 @@
                 <plugin>
                     <groupId>net.ltgt.gwt.maven</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
-                    <version>1.0-rc-9</version>
+                    <version>1.0.0</version>
                     <extensions>true</extensions>
                     <configuration>
                         <sourceLevel>1.8</sourceLevel>

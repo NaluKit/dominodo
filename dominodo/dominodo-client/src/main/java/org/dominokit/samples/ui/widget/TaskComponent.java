@@ -30,14 +30,14 @@ import org.dominokit.samples.Task;
 import org.dominokit.samples.ui.widget.attachment.AttachDialogComponent;
 import org.dominokit.samples.ui.widget.attachment.AttachmentPanelComponent;
 import org.dominokit.samples.ui.widget.attachment.FileUploadComponent;
-import org.gwtproject.i18n.shared.DateTimeFormatInfo;
-import org.gwtproject.i18n.shared.impl.cldr.DateTimeFormatInfo_factory;
-import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
+import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfo;
+import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfo_factory;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.Date;
 
-import static org.jboss.gwt.elemento.core.Elements.hr;
-import static org.jboss.gwt.elemento.core.Elements.small;
+import static org.jboss.elemento.Elements.hr;
+import static org.jboss.elemento.Elements.small;
 
 public class TaskComponent
     extends BaseDominoElement<HTMLDivElement, TaskComponent> {
@@ -86,16 +86,16 @@ public class TaskComponent
     importantIcon = Icons.ALL.priority_high()
                              .setColor(Color.RED)
                              .setTooltip("This task is important")
-                             .styler(style1 -> style1.add(Styles.pull_right))
-                             .collapse();
+                             .styler(style1 -> style1.add(Styles.pull_right));
+//                             .collapse();
 
     attachmentPanel = AttachmentPanelComponent.create(task);
 
     card = Card.create(task.getTitle())
                .styler(style -> style.setProperty("border-left",
                                                   "5px solid " +
-                                                  projectColor.color()
-                                                              .getHex()))
+                                                      projectColor.color()
+                                                                  .getHex()))
                .appendDescriptionChild(projectName)
                .appendDescriptionChild(dueDateElement)
                .addHeaderAction(HeaderAction.create(Icons.ALL.more_vert())
@@ -250,8 +250,8 @@ public class TaskComponent
   }
 
   @Override
-  public HTMLDivElement asElement() {
-    return card.asElement();
+  public HTMLDivElement element() {
+    return card.element();
   }
 
   public interface TaskComponentDelegate {

@@ -6,8 +6,8 @@ import org.dominokit.domino.ui.upload.FileUpload;
 import org.dominokit.domino.ui.utils.BaseDominoElement;
 import org.dominokit.samples.Task;
 
-import static org.jboss.gwt.elemento.core.Elements.em;
-import static org.jboss.gwt.elemento.core.Elements.h;
+import static org.jboss.elemento.Elements.em;
+import static org.jboss.elemento.Elements.h;
 
 public class FileUploadComponent
     extends BaseDominoElement<HTMLDivElement, FileUploadComponent> {
@@ -44,8 +44,8 @@ public class FileUploadComponent
   }
 
   @Override
-  public HTMLDivElement asElement() {
-    return fileUpload.asElement();
+  public HTMLDivElement element() {
+    return fileUpload.element();
   }
 
 }

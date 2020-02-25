@@ -8,13 +8,13 @@ import org.dominokit.domino.ui.style.ColorScheme;
 import org.dominokit.domino.ui.utils.BaseDominoElement;
 import org.dominokit.samples.Task;
 
-import static org.jboss.gwt.elemento.core.Elements.div;
+import static org.jboss.elemento.Elements.div;
 
 public class TagsPanelComponent
     extends BaseDominoElement<HTMLDivElement, TagsPanelComponent> {
 
   private final FlexItem                   tagsContainer = FlexItem.create();
-  private       HTMLDivElement             element       = div().asElement();
+  private       HTMLDivElement             element       = div().element();
   private       Task                       task;
   private       TagsPanelComponentDelegate delegate;
 
@@ -25,7 +25,7 @@ public class TagsPanelComponent
 
     element.appendChild(FlexLayout.create()
                                   .appendChild(tagsContainer)
-                                  .asElement());
+                                  .element());
     init(this);
     update();
   }
@@ -50,7 +50,7 @@ public class TagsPanelComponent
   }
 
   @Override
-  public HTMLDivElement asElement() {
+  public HTMLDivElement element() {
     return element;
   }
 

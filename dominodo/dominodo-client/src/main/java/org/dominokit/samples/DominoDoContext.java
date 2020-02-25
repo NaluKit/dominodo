@@ -1,6 +1,6 @@
 package org.dominokit.samples;
 
-import com.github.nalukit.nalu.client.application.IsContext;
+import com.github.nalukit.nalu.client.context.IsContext;
 import org.dominokit.domino.ui.style.ColorScheme;
 import org.dominokit.samples.model.TasksRepository;
 
@@ -16,7 +16,7 @@ public class DominoDoContext
   public DominoDoContext() {
     this.colorScheme = ColorScheme.INDIGO;
     this.tasksRepository = new TasksRepository();
-    this.version = "1.0.0";
+    this.version = "2.1.0-SNAPSHOT";
   }
 
   public String getVersion() {

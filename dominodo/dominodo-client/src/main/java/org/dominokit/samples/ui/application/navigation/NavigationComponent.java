@@ -91,7 +91,7 @@ public class NavigationComponent
                                                                     .setColor(Color.GREEN))
                                                    .addClickListener(evt -> getController().onListResolved()));
 
-    initElement(navigationTree.asElement());
+    initElement(navigationTree.element());
   }
 
 }

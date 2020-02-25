@@ -17,7 +17,7 @@ import org.dominokit.samples.Constants;
 import org.dominokit.samples.DominoDoContext;
 import org.dominokit.samples.DominoDoRoutes;
 
-import static org.jboss.gwt.elemento.core.Elements.img;
+import static org.jboss.elemento.Elements.img;
 
 /**
  * this is the presenter of the shell. The shell divides the browser in
@@ -65,7 +65,7 @@ public class ApplicationShell
                              .styler(style -> style.add("add-button"))
                              .addClickListener(evt -> showAddDialog());
 
-    DomGlobal.document.body.appendChild(addButton.asElement());
+    DomGlobal.document.body.appendChild(addButton.element());
   }
 
   private void showAddDialog() {
@@ -79,6 +79,11 @@ public class ApplicationShell
   @Override
   public void onAttachedComponent() {
     DomGlobal.window.console.log("ApplicationShell: 'onAttachedComponent' called");
+  }
+
+  @Override
+  public void detachShell() {
+    layout.remove();
   }
 
   private void onSearch(String searchToken) {

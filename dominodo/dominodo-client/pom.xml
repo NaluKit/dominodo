@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.github.nalukit</groupId>
             <artifactId>nalu</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
+            <version>${nalu.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

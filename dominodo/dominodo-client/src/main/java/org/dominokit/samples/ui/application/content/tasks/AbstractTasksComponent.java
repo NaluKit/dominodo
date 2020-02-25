@@ -14,7 +14,7 @@ import org.dominokit.domino.ui.style.Color;
 import org.dominokit.samples.Task;
 import org.dominokit.samples.ui.widget.TaskComponent;
 import org.dominokit.samples.ui.widget.TaskComponent.TaskComponentDelegate;
-import org.jboss.gwt.elemento.core.Elements;
+import org.jboss.elemento.Elements;
 
 import java.util.Date;
 import java.util.List;
@@ -35,7 +35,7 @@ public abstract class AbstractTasksComponent<C extends IAbstractTasksComponent.C
   @Override
   public void render() {
     container = Elements.div()
-                        .asElement();
+                        .element();
     initElement(container);
   }
 
@@ -49,7 +49,7 @@ public abstract class AbstractTasksComponent<C extends IAbstractTasksComponent.C
                         .offset2();
     container.appendChild(Row.create()
                              .appendChild(this.column)
-                             .asElement());
+                             .element());
     this.column.appendChild(BlockHeader.create(getController().doGetTitle()));
     if (models.isEmpty()) {
       this.column.appendChild(EmptyState.create(Icons.ALL.event_available())
@@ -102,11 +102,11 @@ public abstract class AbstractTasksComponent<C extends IAbstractTasksComponent.C
                                                              }
                                                            });
         if (animate) {
-          taskComponent.collapse();
+//          taskComponent.collapse();
           this.column.appendChild(taskComponent);
           Animation.create(taskComponent)
                    .delay(delay)
-                   .beforeStart(component -> taskComponent.expand())
+//                   .beforeStart(component -> taskComponent.expand())
                    .duration(DURATION)
                    .transition(Transition.SLIDE_IN_UP)
                    .animate();

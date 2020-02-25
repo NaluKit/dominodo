@@ -37,7 +37,7 @@ import org.gwtproject.editor.client.annotation.IsDriver;
 
 import java.util.Date;
 
-import static org.jboss.gwt.elemento.core.Elements.h;
+import static org.jboss.elemento.Elements.h;
 
 public class TaskEditorComponent
     extends AbstractPopUpComponent<ITaskEditorComponent.Controller>

@@ -12,9 +12,9 @@ import org.dominokit.domino.ui.style.ColorScheme;
 import org.dominokit.domino.ui.style.Style;
 import org.dominokit.domino.ui.style.Styles;
 import org.dominokit.domino.ui.themes.Theme;
-import org.jboss.gwt.elemento.core.EventType;
+import org.jboss.elemento.EventType;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class SettingsComponent
     extends AbstractComponent<ISettingsComponent.Controller, HTMLElement>
@@ -61,7 +61,7 @@ public class SettingsComponent
                                           .setOffTitle("Off")
                                           .styler(Style::pullRight)));
 
-    initElement(card.asElement());
+    initElement(card.element());
   }
 
   private FlexItem makeThemeSelector(ColorScheme colorScheme) {

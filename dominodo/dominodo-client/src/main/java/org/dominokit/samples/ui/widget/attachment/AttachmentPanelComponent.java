@@ -14,8 +14,8 @@ import org.dominokit.domino.ui.utils.DominoElement;
 import org.dominokit.samples.Task;
 
 import static java.util.Objects.nonNull;
-import static org.jboss.gwt.elemento.core.Elements.div;
-import static org.jboss.gwt.elemento.core.Elements.h;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.h;
 
 public class AttachmentPanelComponent
     extends BaseDominoElement<HTMLDivElement, AttachmentPanelComponent> {
@@ -24,7 +24,7 @@ public class AttachmentPanelComponent
   private final Task                          task;
   private final Badge                         badge;
   private final ColorScheme                   projectColor;
-  private       HTMLDivElement                element       = div().asElement();
+  private       HTMLDivElement                element       = div().element();
   private       DominoElement<HTMLDivElement> listContainer = DominoElement.of(div());
   private       Icon                          attachmentsCountIcon;
 
@@ -38,8 +38,8 @@ public class AttachmentPanelComponent
     attachmentsCountIcon = Icons.ALL.arrow_drop_down()
                                     .setToggleIcon(Icons.ALL.arrow_drop_up())
                                     .styler(style -> style.pullRight()
-                                                          .setLineHeight("10px"))
-                                    .collapse();
+                                                          .setLineHeight("10px"));
+//                                    .collapse();
 
     badge = Badge.create("0 Files");
     attachmentsItemsFlexItem = FlexItem.create();
@@ -57,7 +57,7 @@ public class AttachmentPanelComponent
                               .appendChild(attachmentsCountIcon))).appendChild(listContainer.styler(style -> style.add("attachments-panel",
                                                                                                                        projectColor.lighten_5()
                                                                                                                                    .getBackground()))
-                                                                                            .collapse()
+//                                                                                            .collapse()
                                                                                             .appendChild(FlexLayout.create()
                                                                                                                    .appendChild(attachmentsItemsFlexItem)));
 
@@ -95,7 +95,7 @@ public class AttachmentPanelComponent
   }
 
   @Override
-  public HTMLDivElement asElement() {
+  public HTMLDivElement element() {
     return element;
   }
 
